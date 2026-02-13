@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine, Aynaya? 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff4e88, #ff9ecb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+}
+
+.container {
+    max-width: 600px;
+    position: relative;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+.buttons {
+    position: relative;
+    height: 200px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    position: absolute;
+}
+
+#yesBtn {
+    background: white;
+    color: #ff4e88;
+    left: 30%;
+    z-index: 10; /* ensure clickable */
+}
+
+#noBtn {
+    background: #ff2e63;
+    color: white;
+    left: 60%;
+    z-index: 5;
+}
+
+/* Letter popup */
+.letter {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    background: white;
+    color: #333;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 420px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: all 0.5s ease;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.letter.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Hearts animation */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatUp 3s linear forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-300px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Will you be my Valentine, Aynaya? 💕</h1>
+
+<div class="buttons">
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 😢</button>
+</div>
+</div>
+
+<!-- Letter popup -->
+<div id="letter" class="letter">
+My Forever Valentine, My Jaanu ❤️<br><br>
+I love you so so much, you mean the world to me.  
+My eyes can't get full of looking at you, adoring you.  
+Can't wait to marrying you in the future IA IA 💖<br><br>
+
+My girl for life 💖  
+You already know how much you mean to me.  
+I just want to share every moment with you — our birthdays, Valentine’s Day, our anniversary.  
+I only wish of celebrating these occasions with you by my side.  
+Ahhh I miss you so muchhhh.  
+Keep loving me the way you do.  
+MUAWHH 😘🤍
+</div>
+
+<!-- Background music autoplay -->
+<audio id="bgMusic" autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f3a332c171.mp3?filename=love-background-113964.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const letter = document.getElementById("letter");
+const music = document.getElementById("bgMusic");
+
+// Ensure music plays immediately (some browsers require play after load)
+window.addEventListener("load", () => {
+    music.play().catch(() => {
+        // If browser blocks autoplay, unmute and play after user interaction
+        console.log("Autoplay blocked, will play on first click");
+    });
+});
+
+// NO button moves in circle continuously
+let angle = 0;
+setInterval(() => {
+    const radius = 140;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    angle += 0.08;
+}, 30);
+
+// YES click → show letter + hearts
+yesBtn.addEventListener("click", () => {
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+    letter.classList.add("show");
+
+    for (let i = 0; i < 60; i++) createHeart();
+});
+
+// Create floating hearts
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = window.innerHeight + "px";
+    heart.style.fontSize = Math.random() * 20 + 20 + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
+}
+</script>
+
+</body>
+</html>
