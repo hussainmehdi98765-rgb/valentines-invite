@@ -46,7 +46,7 @@ button {
     background: white;
     color: #ff4e88;
     left: 30%;
-    z-index: 10; /* ensure clickable */
+    z-index: 10; /* ensures clickable over No button */
 }
 
 #noBtn {
@@ -91,6 +91,21 @@ button {
     0% { transform: translateY(0); opacity: 1; }
     100% { transform: translateY(-300px); opacity: 0; }
 }
+
+/* Music start hint */
+#musicHint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,0.8);
+    color: #ff4e88;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 20;
+}
 </style>
 </head>
 
@@ -121,27 +136,29 @@ Keep loving me the way you do.
 MUAWHH 😘🤍
 </div>
 
-<!-- Background music autoplay -->
-<audio id="bgMusic" autoplay loop>
+<!-- Background music -->
+<audio id="bgMusic" loop>
   <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_f3a332c171.mp3?filename=love-background-113964.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
 </audio>
+
+<div id="musicHint">Tap anywhere to play music 🎵</div>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const letter = document.getElementById("letter");
 const music = document.getElementById("bgMusic");
+const musicHint = document.getElementById("musicHint");
 
-// Ensure music plays immediately (some browsers require play after load)
-window.addEventListener("load", () => {
+// Play music on first tap/click (works on all devices)
+document.body.addEventListener("click", () => {
     music.play().catch(() => {
-        // If browser blocks autoplay, unmute and play after user interaction
-        console.log("Autoplay blocked, will play on first click");
+        console.log("Autoplay blocked, play on user interaction");
     });
-});
+    musicHint.style.display = "none";
+}, { once: true });
 
-// NO button moves in circle continuously
+// NO button moves in a circle continuously
 let angle = 0;
 setInterval(() => {
     const radius = 140;
